@@ -32,7 +32,6 @@ contract EfCoin is Ownable {
 
     function burn(address who) public onlyOwner {
         _totalEthDeposited = _totalEthDeposited - balanceOf(who);
-        console.log(_totalEthDeposited);
         _totalEfCoin -= _efcoinBalances[who];
         _efcoinBalances[who] = 0;
     }
