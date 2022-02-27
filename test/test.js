@@ -93,7 +93,7 @@ describe("ETHPool Basics", function () {
     expect(balanceB).to.equal(ethers.utils.parseEther("64.0"));
   });
 
-  it("small quants fo eth", async () => {
+  it("small quants of eth", async () => {
     const [team, userA, userB] = await ethers.getSigners();
     await userA.sendTransaction({
       to: eTHPool.address,
@@ -123,7 +123,7 @@ describe("ETHPool Basics", function () {
     expect(balanceB).to.equal(ethers.utils.parseEther("0.000000802"));
   });
 
-  it("big quants fo eth", async () => {
+  it("big quants of eth", async () => {
     const [team, userA, userB] = await ethers.getSigners();
     await userA.sendTransaction({
       to: eTHPool.address,
@@ -182,5 +182,55 @@ describe("ETHPool Basics", function () {
 
     let balanceB = await token.balanceOf(userB.address);
     expect(balanceB).to.equal(ethers.utils.parseEther("231.000000000025"));
+  });
+});
+
+describe("Withdraw with amount", function () {
+  beforeEach(async function () {
+    const Token = await ethers.getContractFactory("EfCoin");
+    token = await Token.deploy();
+    await token.deployed();
+
+    const ETHPool = await ethers.getContractFactory("ETHPool");
+    eTHPool = await ETHPool.deploy(token.address);
+    await eTHPool.deployed();
+    token.transferOwnership(eTHPool.address);
+    //const [userA, userB, team] = await ethers.getSigners();
+  });
+
+  it("Simple withdraw", async () => {
+    const [team, userA, userB] = await ethers.getSigners();
+    await userA.sendTransaction({
+      to: eTHPool.address,
+      value: ethers.utils.parseEther("1.0"),
+    });
+    await eTHPool
+      .connect(userA)
+      .withdrawWithAmount(ethers.utils.parseEther("0.5"));
+    let balanceA = await token.balanceOf(userA.address);
+
+    expect(balanceA).to.equal(ethers.utils.parseEther("0.5"));
+  });
+
+  it("Withdraw after rebase", async () => {
+    const [team, userA, userB] = await ethers.getSigners();
+    await userA.sendTransaction({
+      to: eTHPool.address,
+      value: ethers.utils.parseEther("20.0"),
+    });
+    await userB.sendTransaction({
+      to: eTHPool.address,
+      value: ethers.utils.parseEther("40"),
+    });
+    await team.sendTransaction({
+      to: eTHPool.address,
+      value: ethers.utils.parseEther("60"),
+    });
+    await eTHPool
+      .connect(userA)
+      .withdrawWithAmount(ethers.utils.parseEther("0.5"));
+    let balanceA = await token.balanceOf(userA.address);
+
+    expect(balanceA).to.equal(ethers.utils.parseEther("39.5"));
   });
 });

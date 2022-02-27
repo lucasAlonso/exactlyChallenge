@@ -3,13 +3,14 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "./EfCoin.sol";
 
 interface IEfCoin {
     function totalSupply() external view returns (uint256);
 
     function burn(address) external;
+
+    function burnWithAmount(address, uint256) external;
 
     function balanceOf(address account) external view returns (uint256);
 
@@ -36,6 +37,16 @@ contract ETHPool is Ownable {
         _balance = token.balanceOf(msg.sender);
         token.burn(msg.sender);
         payable(msg.sender).transfer(_balance);
+    }
+
+    function withdrawWithAmount(uint256 _amount) public {
+        IEfCoin token = IEfCoin(tokenAddress);
+        uint256 _balance;
+        _balance = token.balanceOf(msg.sender);
+        require(_balance >= _amount);
+
+        token.burnWithAmount(msg.sender, _amount);
+        payable(msg.sender).transfer(_amount);
     }
 
     receive() external payable {

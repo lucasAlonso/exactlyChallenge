@@ -36,6 +36,17 @@ contract EfCoin is Ownable {
         _efcoinBalances[who] = 0;
     }
 
+    function burnWithAmount(address who, uint256 _amountOfEth)
+        public
+        onlyOwner
+    {
+        uint256 balanceEfCoin = _efcoinBalances[who];
+        uint256 amountOfEfCoin = (_amountOfEth * _efcoinPerEth) / 10**28;
+        _totalEthDeposited -= _amountOfEth;
+        _totalEfCoin -= amountOfEfCoin;
+        _efcoinBalances[who] -= amountOfEfCoin;
+    }
+
     function rebase(uint256 supplyDelta) public onlyOwner {
         require(supplyDelta != 0);
 
@@ -53,7 +64,12 @@ contract EfCoin is Ownable {
 }
 
 /* 
+ KEEPED ONLY FOR SHOW THE LEARNING PROCCESS
 
+first time i tried to do an ERC20 and extend functions, but when i need to do some changes it was hard not to override some ERC20 FUNCTION
+I then decide to make a simple, easy to audit token just with the small quant of function i needed
+
+///////////////////////////////////////////
 
 
 pragma solidity ^0.8.0;
