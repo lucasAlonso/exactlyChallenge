@@ -60,7 +60,12 @@ contract ETHPool is Ownable {
     }
 }
 
-/* 
+/* KEEPED ONLY FOR SHOW THE LEARNING PROCCESS
+
+first time i tried to do an ERC20 and extend functions, but when i need to do some changes it was hard not to override some ERC20 FUNCTION
+I then decide to make a simple, easy to audit token just with the small quant of function i needed
+
+///////////////////////////////////////////
 contract ETHPool is ERC20, Ownable {
     address public tokenAddress;
     address public teamAddress;
