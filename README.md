@@ -1,4 +1,4 @@
-# Somo thoughts about this
+# Some thoughts about this
 
 First time i tried to do an ERC20 and extend functions, but when i need to do some changes it was hard not to override some ERC20 FUNCTION
 I then decide to make a simple, easy to audit token just with the small quant of function i needed
