@@ -2,7 +2,6 @@
 
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
 import "./EfCoin.sol";
 
 interface IEfCoin {
@@ -21,7 +20,7 @@ interface IEfCoin {
     function efcoinPerEth() external view returns (uint256);
 }
 
-contract ETHPool is Ownable {
+contract ETHPool {
     address public tokenAddress;
     address public teamAddress;
 

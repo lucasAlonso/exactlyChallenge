@@ -40,7 +40,6 @@ contract EfCoin is Ownable {
         public
         onlyOwner
     {
-        uint256 balanceEfCoin = _efcoinBalances[who];
         uint256 amountOfEfCoin = (_amountOfEth * _efcoinPerEth) / 10**28;
         _totalEthDeposited -= _amountOfEth;
         _totalEfCoin -= amountOfEfCoin;
