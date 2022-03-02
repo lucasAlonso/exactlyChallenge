@@ -1,7 +1,7 @@
 # Some thoughts about this
 
-First time i tried to resolve this challenge i tried an ERC20 aproach and extend functions as needed, but when i needed to do some changes it was hard not to override some ERC20 FUNCTIONS.
-I then decided to make a simple, easy-to-audit, token with just the small quant of function i needed
+First aproach implemented ERC20 Token and extend functions from it as needed, but when changes needed to be done, it was hard not to override some ERC20 functions or get some issues regarding ERC20 funcionability.
+I then decided to make a simple, easy-to-audit, token with just the a small quantity of functions.
 
 ---
 
